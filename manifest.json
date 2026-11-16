@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "francisilagan.hue-lights",
+  "name": "Hue Lights",
+  "version": "1.0.0",
+  "author": "Francis Ilagan",
+  "license": "MIT",
+  "description": "Full Philips Hue control in the Omarchy bar: rooms, zones, lights, colour, white temperature, effects, scenes, routines, automations, sensors, bridge status and wallpaper sync, with live updates.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "qml/Panel.qml" },
+  "barWidget": {
+    "displayName": "Hue Lights",
+    "description": "Control every Hue feature: power, brightness, colour, effects, scenes, zones, automations and devices.",
+    "category": "Home",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

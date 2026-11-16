@@ -1,0 +1,22 @@
+singleton HueService 1.0 HueService.qml
+singleton Strings 1.0 Strings.qml
+Card 1.0 Card.qml
+Title 1.0 Title.qml
+Field 1.0 Field.qml
+LevelSlider 1.0 LevelSlider.qml
+WallpaperCard 1.0 WallpaperCard.qml
+LightRow 1.0 LightRow.qml
+GroupCard 1.0 GroupCard.qml
+LightsTab 1.0 LightsTab.qml
+ScenesTab 1.0 ScenesTab.qml
+AutomationsTab 1.0 AutomationsTab.qml
+DevicesTab 1.0 DevicesTab.qml
+PairingView 1.0 PairingView.qml
+RecoveryView 1.0 RecoveryView.qml
+Chip 1.0 Chip.qml
+Caption 1.0 Caption.qml
+Link 1.0 Link.qml
+RenameRow 1.0 RenameRow.qml
+ColorTuner 1.0 ColorTuner.qml
+GradientSlider 1.0 GradientSlider.qml
+CursorRing 1.0 CursorRing.qml

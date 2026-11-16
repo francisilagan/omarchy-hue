@@ -1,0 +1,46 @@
+name: ci
+on: [push, pull_request]
+
+jobs:
+  python:
+    runs-on: ubuntu-24.04  # Python 3.9 is not offered on newer images
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.x"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Byte-compile every Python file
+        run: python3 -m py_compile backend/__main__.py backend/hue_backend/*.py tools/*.py tests/*.py
+      - run: python3 -m unittest discover -s tests
+
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      # Model.js is a QML `.pragma library`; Node parses it once that line is gone.
+      - name: Syntax-check the JavaScript
+        run: |
+          sed '/^\.pragma library$/d' qml/Model.js > "$RUNNER_TEMP/Model.js"
+          node --check "$RUNNER_TEMP/Model.js"
+          node --check tests/model.test.js
+      - run: node --test tests/model.test.js
+
+  # Optional: the QML smoke test needs quickshell and Omarchy's shell modules
+  # (qs.Commons / qs.Ui), which GitHub's runners do not have. To enable it, run
+  # on a self-hosted runner (or an image) that has quickshell installed and a
+  # checkout of the Omarchy shell, set OMARCHY_SHELL to that directory, and
+  # uncomment.
+  #
+  # qml-smoke:
+  #   runs-on: self-hosted
+  #   env:
+  #     OMARCHY_SHELL: /usr/share/omarchy/shell
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: python3 tests/qml_smoke.py

@@ -1,0 +1,2739 @@
+[
+ {
+  "configuration": {
+   "end_scene": {
+    "rid": "00000000-0000-4000-8000-454524cbf4f7",
+    "rtype": "recipe"
+   },
+   "end_state": "scene",
+   "where": [
+    {
+     "group": {
+      "rid": "00000000-0000-4000-8000-83ab529fd737",
+      "rtype": "entertainment_configuration"
+     }
+    }
+   ]
+  },
+  "dependees": [
+   {
+    "level": "critical",
+    "target": {
+     "rid": "00000000-0000-4000-8000-83ab529fd737",
+     "rtype": "entertainment_configuration"
+    },
+    "type": "ResourceDependee"
+   }
+  ],
+  "enabled": true,
+  "id": "00000000-0000-4000-8000-6c7698339607",
+  "last_error": "",
+  "metadata": {
+   "name": "Behavior Instance 1"
+  },
+  "script_id": "00000000-0000-4000-8000-7d0e4428b444",
+  "status": "running",
+  "type": "behavior_instance"
+ },
+ {
+  "configuration": {
+   "what": [
+    {
+     "group": {
+      "rid": "00000000-0000-4000-8000-7b37367748e0",
+      "rtype": "room"
+     },
+     "recall": {
+      "rid": "00000000-0000-4000-8000-454524cbf4f7",
+      "rtype": "recipe"
+     }
+    }
+   ],
+   "when_extended": {
+    "end_at": {
+     "time_point": {
+      "time": {
+       "hour": 8,
+       "minute": 0
+      },
+      "type": "time"
+     }
+    },
+    "recurrence_days": [
+     "sunday",
+     "monday",
+     "tuesday",
+     "wednesday",
+     "thursday",
+     "friday",
+     "saturday"
+    ],
+    "start_at": {
+     "time_point": {
+      "offset": {
+       "minutes": 0
+      },
+      "type": "sunset"
+     }
+    }
+   },
+   "where": [
+    {
+     "group": {
+      "rid": "00000000-0000-4000-8000-7b37367748e0",
+      "rtype": "room"
+     }
+    }
+   ]
+  },
+  "dependees": [
+   {
+    "level": "critical",
+    "target": {
+     "rid": "00000000-0000-4000-8000-7b37367748e0",
+     "rtype": "room"
+    },
+    "type": "ResourceDependee"
+   }
+  ],
+  "enabled": true,
+  "id": "00000000-0000-4000-8000-b8bd1c77ed14",
+  "last_error": "",
+  "metadata": {
+   "name": "Behavior Instance 2"
+  },
+  "script_id": "00000000-0000-4000-8000-bf32ec3a601c",
+  "state": null,
+  "status": "running",
+  "type": "behavior_instance"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "leaving_home_config.json#"
+  },
+  "description": "Automatically turn off your lights when you leave",
+  "id": "00000000-0000-4000-8000-16a34c2ba54a",
+  "metadata": {
+   "category": "automation",
+   "name": "Leaving home"
+  },
+  "state_schema": {},
+  "supported_features": [],
+  "trigger_schema": {
+   "$ref": "trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "config.json#"
+  },
+  "description": "Contact Sensor script",
+  "id": "00000000-0000-4000-8000-e5444e4baaa2",
+  "metadata": {
+   "category": "accessory",
+   "name": "Contact Sensor"
+  },
+  "state_schema": {
+   "$ref": "state.json#"
+  },
+  "supported_features": [],
+  "trigger_schema": {},
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "smoke_alarm_config.json#"
+  },
+  "description": "Smoke alarm automation",
+  "id": "00000000-0000-4000-8000-89da7bd90462",
+  "max_number_instances": 1,
+  "metadata": {
+   "category": "automation",
+   "name": "Smoke alarm"
+  },
+  "state_schema": {
+   "$ref": "smoke_alarm_state.json#"
+  },
+  "supported_features": [],
+  "trigger_schema": {
+   "$ref": "smoke_alarm_trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "config.json#"
+  },
+  "description": "Generic switches script",
+  "id": "00000000-0000-4000-8000-33baf155ee10",
+  "metadata": {
+   "category": "accessory",
+   "name": "Hue Accessories"
+  },
+  "state_schema": {
+   "$ref": "state.json#"
+  },
+  "supported_features": [
+   "hue_tap_dial_switch",
+   "no_motion_scene"
+  ],
+  "trigger_schema": {},
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "schedule_config.json#"
+  },
+  "description": "Schedule turning on and off lights",
+  "id": "00000000-0000-4000-8000-bf32ec3a601c",
+  "metadata": {
+   "category": "automation",
+   "name": "Schedule"
+  },
+  "state_schema": {},
+  "supported_features": [],
+  "trigger_schema": {
+   "$ref": "trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "lights_state_after_streaming_config.json#"
+  },
+  "description": "State of lights in the entertainment group after streaming ends",
+  "id": "00000000-0000-4000-8000-7d0e4428b444",
+  "metadata": {
+   "category": "entertainment",
+   "name": "Light state after streaming"
+  },
+  "state_schema": {},
+  "supported_features": [],
+  "trigger_schema": {},
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "goto_sleep_config.json#"
+  },
+  "description": "Get ready for nice sleep.",
+  "id": "00000000-0000-4000-8000-2a7b9ca1e5d9",
+  "metadata": {
+   "category": "automation",
+   "name": "Go to sleep routines"
+  },
+  "state_schema": {
+   "$ref": "goto_sleep_state.json#"
+  },
+  "supported_features": [
+   "style_sunset_gts"
+  ],
+  "trigger_schema": {
+   "$ref": "trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "goto_sleep_config.json#"
+  },
+  "description": "Native GTS",
+  "id": "00000000-0000-4000-8000-65c693ecbd9e",
+  "metadata": {
+   "category": "automation",
+   "name": "Native Go To Sleep"
+  },
+  "state_schema": {
+   "$ref": "goto_sleep_state.json#"
+  },
+  "supported_features": [],
+  "trigger_schema": {
+   "$ref": "trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "1.0.0"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "motion_sensor_config.json#"
+  },
+  "description": "Motion sensor script",
+  "id": "00000000-0000-4000-8000-2c6c77100e44",
+  "metadata": {
+   "category": "accessory",
+   "name": "Motion Sensor"
+  },
+  "state_schema": {
+   "$ref": "motion_sensor_state.json#"
+  },
+  "supported_features": [],
+  "trigger_schema": {},
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "pm_config.json#"
+  },
+  "description": "PM Automation",
+  "id": "00000000-0000-4000-8000-8144e3e4b59e",
+  "max_number_instances": 1,
+  "metadata": {
+   "category": "automation",
+   "name": "PM"
+  },
+  "state_schema": {
+   "$ref": "pm_state.json#"
+  },
+  "supported_features": [],
+  "trigger_schema": {
+   "$ref": "pm_trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "timer_config.json#"
+  },
+  "description": "Countdown Timer",
+  "id": "00000000-0000-4000-8000-66fc0510b52a",
+  "metadata": {
+   "category": "automation",
+   "name": "Timers"
+  },
+  "state_schema": {
+   "$ref": "timer_state.json#"
+  },
+  "supported_features": [],
+  "trigger_schema": {
+   "$ref": "trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "config.json#"
+  },
+  "description": "Tap Switch script",
+  "id": "00000000-0000-4000-8000-cbb595e01a53",
+  "metadata": {
+   "category": "accessory",
+   "name": "Tap Switch"
+  },
+  "state_schema": {
+   "$ref": "state.json#"
+  },
+  "supported_features": [],
+  "trigger_schema": {},
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "coming_home_config.json#"
+  },
+  "description": "Automatically turn your lights to choosen light states, when you arrive at home.",
+  "id": "00000000-0000-4000-8000-4bd0652e22a7",
+  "metadata": {
+   "category": "automation",
+   "name": "Coming home"
+  },
+  "state_schema": {},
+  "supported_features": [],
+  "trigger_schema": {
+   "$ref": "trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "configuration_schema": {
+   "$ref": "basic_wake_up_config.json#"
+  },
+  "description": "Get your body in the mood to wake up by fading on the lights in the morning.",
+  "id": "00000000-0000-4000-8000-98f1c25ba131",
+  "metadata": {
+   "category": "automation",
+   "name": "Basic wake up routine"
+  },
+  "state_schema": {},
+  "supported_features": [
+   "style_sunrise",
+   "intensity"
+  ],
+  "trigger_schema": {
+   "$ref": "trigger.json#"
+  },
+  "type": "behavior_script",
+  "version": "0.0.1"
+ },
+ {
+  "bridge_id": "0123456789abcdef",
+  "id": "00000000-0000-4000-8000-befffba32ae7",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-d95570c18069",
+   "rtype": "device"
+  },
+  "time_zone": {
+   "time_zone": "UTC"
+  },
+  "type": "bridge"
+ },
+ {
+  "children": [
+   {
+    "rid": "00000000-0000-4000-8000-d95570c18069",
+    "rtype": "device"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-7b37367748e0",
+    "rtype": "room"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-372bf3597642",
+    "rtype": "room"
+   }
+  ],
+  "id": "00000000-0000-4000-8000-2aa2273597ea",
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-16ca1cace1e4",
+    "rtype": "grouped_light"
+   }
+  ],
+  "type": "bridge_home"
+ },
+ {
+  "id": "00000000-0000-4000-8000-81e17a20a8b6",
+  "resources": [
+   "behavior_instance",
+   "behavior_script",
+   "behavior_script_formula",
+   "bell_button",
+   "bridge",
+   "bridge_home",
+   "button",
+   "camera_motion",
+   "clip",
+   "contact",
+   "device",
+   "device_power",
+   "device_software_update",
+   "entertainment",
+   "entertainment_configuration",
+   "geofence_client",
+   "geolocation",
+   "grouped_light",
+   "grouped_light_level",
+   "grouped_motion",
+   "homekit",
+   "light",
+   "light_level",
+   "matter",
+   "matter_fabric",
+   "motion",
+   "motion_area_candidate",
+   "power_output_configuration",
+   "private_group",
+   "private_scene",
+   "relative_rotary",
+   "room",
+   "scene",
+   "service_group",
+   "smart_scene",
+   "speaker",
+   "switch_input_configuration",
+   "tamper",
+   "temperature",
+   "zgp_connectivity",
+   "zigbee_connectivity",
+   "zigbee_device_discovery",
+   "zone"
+  ],
+  "type": "clip"
+ },
+ {
+  "id": "00000000-0000-4000-8000-52a99d0e4305",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_play",
+   "name": "Device 1"
+  },
+  "product_data": {
+   "certified": true,
+   "hardware_platform_type": "100b-11f",
+   "manufacturer_name": "Signify Netherlands B.V.",
+   "model_id": "440400982842",
+   "product_archetype": "hue_play",
+   "product_name": "Hue Play",
+   "software_version": "1.163.1"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-77f12e544f73",
+    "rtype": "zigbee_connectivity"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+    "rtype": "light"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-ad5276eebe2a",
+    "rtype": "entertainment"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-beb4ec878e35",
+    "rtype": "motion_area_candidate"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-6f5fd3664cb0",
+    "rtype": "device_software_update"
+   }
+  ],
+  "type": "device"
+ },
+ {
+  "id": "00000000-0000-4000-8000-d95570c18069",
+  "identify": {},
+  "metadata": {
+   "archetype": "bridge_v2",
+   "name": "Hue Bridge"
+  },
+  "product_data": {
+   "certified": true,
+   "manufacturer_name": "Signify Netherlands B.V.",
+   "model_id": "BSB002",
+   "product_archetype": "bridge_v2",
+   "product_name": "Hue Bridge",
+   "software_version": "6.3.1978545030"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-befffba32ae7",
+    "rtype": "bridge"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-96bf2f9535cd",
+    "rtype": "zigbee_connectivity"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-c70df4e0bda3",
+    "rtype": "entertainment"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-c45bd0e0ac79",
+    "rtype": "zigbee_device_discovery"
+   }
+  ],
+  "type": "device"
+ },
+ {
+  "id": "00000000-0000-4000-8000-71fb3decb68b",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_lightstrip",
+   "name": "Device 3"
+  },
+  "product_data": {
+   "certified": true,
+   "hardware_platform_type": "100b-11f",
+   "manufacturer_name": "Signify Netherlands B.V.",
+   "model_id": "LCL001",
+   "product_archetype": "hue_lightstrip",
+   "product_name": "Hue lightstrip plus",
+   "software_version": "1.163.1"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-54f7d41c4675",
+    "rtype": "zigbee_connectivity"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-2b157da16236",
+    "rtype": "light"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-9363638d63b5",
+    "rtype": "entertainment"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-628fee357f55",
+    "rtype": "motion_area_candidate"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-a1802b585e30",
+    "rtype": "device_software_update"
+   }
+  ],
+  "type": "device"
+ },
+ {
+  "id": "00000000-0000-4000-8000-c25325dd1e21",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_lightstrip",
+   "name": "Device 4"
+  },
+  "product_data": {
+   "certified": true,
+   "hardware_platform_type": "100b-11f",
+   "manufacturer_name": "Signify Netherlands B.V.",
+   "model_id": "LCL001",
+   "product_archetype": "hue_lightstrip",
+   "product_name": "Hue lightstrip plus",
+   "software_version": "1.163.1"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-cb9d34d23102",
+    "rtype": "zigbee_connectivity"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-175b824ab513",
+    "rtype": "light"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-ad3050abaa50",
+    "rtype": "entertainment"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-58a4adb0d66a",
+    "rtype": "motion_area_candidate"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-f4f5e6629fe6",
+    "rtype": "device_software_update"
+   }
+  ],
+  "type": "device"
+ },
+ {
+  "id": "00000000-0000-4000-8000-695a698db964",
+  "identify": {},
+  "metadata": {
+   "archetype": "ceiling_round",
+   "name": "Device 5"
+  },
+  "product_data": {
+   "certified": true,
+   "hardware_platform_type": "100b-114",
+   "manufacturer_name": "Signify Netherlands B.V.",
+   "model_id": "LWA024",
+   "product_archetype": "sultan_bulb",
+   "product_name": "Hue white lamp",
+   "software_version": "1.163.1"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-16b16f5d7fc5",
+    "rtype": "zigbee_connectivity"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-c649c9c147a9",
+    "rtype": "light"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-3c52a3a5ff49",
+    "rtype": "motion_area_candidate"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-7837cc8ea590",
+    "rtype": "device_software_update"
+   }
+  ],
+  "type": "device"
+ },
+ {
+  "id": "00000000-0000-4000-8000-ecb063cce42d",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_play",
+   "name": "Device 6"
+  },
+  "product_data": {
+   "certified": true,
+   "hardware_platform_type": "100b-11f",
+   "manufacturer_name": "Signify Netherlands B.V.",
+   "model_id": "440400982842",
+   "product_archetype": "hue_play",
+   "product_name": "Hue Play",
+   "software_version": "1.163.1"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-f4535fd74caa",
+    "rtype": "zigbee_connectivity"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-a7f92b51da83",
+    "rtype": "light"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-be0519ff8058",
+    "rtype": "entertainment"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-5ea07346f815",
+    "rtype": "motion_area_candidate"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-9204ad19a770",
+    "rtype": "device_software_update"
+   }
+  ],
+  "type": "device"
+ },
+ {
+  "id": "00000000-0000-4000-8000-7837cc8ea590",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-695a698db964",
+   "rtype": "device"
+  },
+  "problems": [],
+  "state": "no_update",
+  "type": "device_software_update"
+ },
+ {
+  "id": "00000000-0000-4000-8000-9204ad19a770",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-ecb063cce42d",
+   "rtype": "device"
+  },
+  "problems": [],
+  "state": "no_update",
+  "type": "device_software_update"
+ },
+ {
+  "id": "00000000-0000-4000-8000-f4f5e6629fe6",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-c25325dd1e21",
+   "rtype": "device"
+  },
+  "problems": [],
+  "state": "no_update",
+  "type": "device_software_update"
+ },
+ {
+  "id": "00000000-0000-4000-8000-a1802b585e30",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-71fb3decb68b",
+   "rtype": "device"
+  },
+  "problems": [],
+  "state": "no_update",
+  "type": "device_software_update"
+ },
+ {
+  "id": "00000000-0000-4000-8000-6f5fd3664cb0",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-52a99d0e4305",
+   "rtype": "device"
+  },
+  "problems": [],
+  "state": "no_update",
+  "type": "device_software_update"
+ },
+ {
+  "equalizer": true,
+  "id": "00000000-0000-4000-8000-be0519ff8058",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-ecb063cce42d",
+   "rtype": "device"
+  },
+  "proxy": true,
+  "renderer": true,
+  "renderer_reference": {
+   "rid": "00000000-0000-4000-8000-a7f92b51da83",
+   "rtype": "light"
+  },
+  "segments": {
+   "configurable": false,
+   "max_segments": 1,
+   "segments": [
+    {
+     "length": 1,
+     "start": 0
+    }
+   ]
+  },
+  "type": "entertainment"
+ },
+ {
+  "equalizer": true,
+  "id": "00000000-0000-4000-8000-ad5276eebe2a",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-52a99d0e4305",
+   "rtype": "device"
+  },
+  "proxy": true,
+  "renderer": true,
+  "renderer_reference": {
+   "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+   "rtype": "light"
+  },
+  "segments": {
+   "configurable": false,
+   "max_segments": 1,
+   "segments": [
+    {
+     "length": 1,
+     "start": 0
+    }
+   ]
+  },
+  "type": "entertainment"
+ },
+ {
+  "equalizer": true,
+  "id": "00000000-0000-4000-8000-9363638d63b5",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-71fb3decb68b",
+   "rtype": "device"
+  },
+  "proxy": true,
+  "renderer": true,
+  "renderer_reference": {
+   "rid": "00000000-0000-4000-8000-2b157da16236",
+   "rtype": "light"
+  },
+  "segments": {
+   "configurable": false,
+   "max_segments": 1,
+   "segments": [
+    {
+     "length": 1,
+     "start": 0
+    }
+   ]
+  },
+  "type": "entertainment"
+ },
+ {
+  "equalizer": true,
+  "id": "00000000-0000-4000-8000-ad3050abaa50",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-c25325dd1e21",
+   "rtype": "device"
+  },
+  "proxy": true,
+  "renderer": true,
+  "renderer_reference": {
+   "rid": "00000000-0000-4000-8000-175b824ab513",
+   "rtype": "light"
+  },
+  "segments": {
+   "configurable": false,
+   "max_segments": 1,
+   "segments": [
+    {
+     "length": 1,
+     "start": 0
+    }
+   ]
+  },
+  "type": "entertainment"
+ },
+ {
+  "equalizer": false,
+  "id": "00000000-0000-4000-8000-c70df4e0bda3",
+  "max_streams": 1,
+  "owner": {
+   "rid": "00000000-0000-4000-8000-d95570c18069",
+   "rtype": "device"
+  },
+  "proxy": true,
+  "renderer": false,
+  "type": "entertainment"
+ },
+ {
+  "channels": [
+   {
+    "channel_id": 0,
+    "members": [
+     {
+      "index": 0,
+      "service": {
+       "rid": "00000000-0000-4000-8000-be0519ff8058",
+       "rtype": "entertainment"
+      }
+     }
+    ],
+    "position": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    }
+   },
+   {
+    "channel_id": 1,
+    "members": [
+     {
+      "index": 0,
+      "service": {
+       "rid": "00000000-0000-4000-8000-ad5276eebe2a",
+       "rtype": "entertainment"
+      }
+     }
+    ],
+    "position": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    }
+   }
+  ],
+  "configuration_type": "screen",
+  "id": "00000000-0000-4000-8000-83ab529fd737",
+  "light_services": [
+   {
+    "rid": "00000000-0000-4000-8000-a7f92b51da83",
+    "rtype": "light"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+    "rtype": "light"
+   }
+  ],
+  "locations": {
+   "service_locations": [
+    {
+     "equalization_factor": 1.0,
+     "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+     },
+     "positions": [
+      {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      }
+     ],
+     "service": {
+      "rid": "00000000-0000-4000-8000-be0519ff8058",
+      "rtype": "entertainment"
+     }
+    },
+    {
+     "equalization_factor": 1.0,
+     "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+     },
+     "positions": [
+      {
+       "x": 0.0,
+       "y": 0.0,
+       "z": 0.0
+      }
+     ],
+     "service": {
+      "rid": "00000000-0000-4000-8000-ad5276eebe2a",
+      "rtype": "entertainment"
+     }
+    }
+   ]
+  },
+  "metadata": {
+   "name": "Entertainment Configuration 1"
+  },
+  "name": "Entertainment Configuration 1",
+  "status": "inactive",
+  "stream_proxy": {
+   "mode": "auto",
+   "node": {
+    "rid": "00000000-0000-4000-8000-c70df4e0bda3",
+    "rtype": "entertainment"
+   }
+  },
+  "type": "entertainment_configuration"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "color": {},
+  "color_temperature": {},
+  "color_temperature_delta": {},
+  "dimming": {
+   "brightness": 0.0
+  },
+  "dimming_delta": {},
+  "dynamics": {},
+  "id": "00000000-0000-4000-8000-0367d069d0bd",
+  "on": {
+   "on": false
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "signaling": {
+   "signal_values": [
+    "alternating",
+    "no_signal",
+    "on_off",
+    "on_off_color"
+   ]
+  },
+  "type": "grouped_light"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "color": {},
+  "color_temperature": {},
+  "color_temperature_delta": {},
+  "dimming": {
+   "brightness": 100.0
+  },
+  "dimming_delta": {},
+  "dynamics": {},
+  "id": "00000000-0000-4000-8000-16ca1cace1e4",
+  "on": {
+   "on": true
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-2aa2273597ea",
+   "rtype": "bridge_home"
+  },
+  "signaling": {
+   "signal_values": [
+    "alternating",
+    "no_signal",
+    "on_off",
+    "on_off_color"
+   ]
+  },
+  "type": "grouped_light"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "color": {},
+  "color_temperature": {},
+  "color_temperature_delta": {},
+  "dimming": {
+   "brightness": 100.0
+  },
+  "dimming_delta": {},
+  "dynamics": {},
+  "id": "00000000-0000-4000-8000-94bedab97658",
+  "on": {
+   "on": true
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-372bf3597642",
+   "rtype": "room"
+  },
+  "signaling": {
+   "signal_values": [
+    "alternating",
+    "no_signal",
+    "on_off",
+    "on_off_color"
+   ]
+  },
+  "type": "grouped_light"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "dimming": {
+   "brightness": 100.0,
+   "min_dim_level": 5.0
+  },
+  "dimming_delta": {},
+  "dynamics": {
+   "speed": 0.0,
+   "speed_valid": false,
+   "status": "none",
+   "status_values": [
+    "none"
+   ]
+  },
+  "effects": {
+   "effect_values": [
+    "no_effect",
+    "candle"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "candle"
+   ]
+  },
+  "effects_v2": {
+   "action": {
+    "effect_values": [
+     "no_effect",
+     "candle"
+    ]
+   },
+   "status": {
+    "effect": "no_effect",
+    "effect_values": [
+     "no_effect",
+     "candle"
+    ]
+   }
+  },
+  "id": "00000000-0000-4000-8000-c649c9c147a9",
+  "identify": {},
+  "metadata": {
+   "archetype": "ceiling_round",
+   "fixed_mired": 366,
+   "function": "mixed",
+   "name": "Light 1"
+  },
+  "mode": "normal",
+  "on": {
+   "on": true
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-695a698db964",
+   "rtype": "device"
+  },
+  "powerup": {
+   "configured": true,
+   "dimming": {
+    "dimming": {
+     "brightness": 100.0
+    },
+    "mode": "dimming"
+   },
+   "on": {
+    "mode": "on",
+    "on": {
+     "on": true
+    }
+   },
+   "preset": "safety"
+  },
+  "product_data": {
+   "function": "mixed"
+  },
+  "service_id": 0,
+  "signaling": {
+   "signal_values": [
+    "no_signal",
+    "on_off"
+   ]
+  },
+  "type": "light"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "color": {
+   "gamut": {
+    "blue": {
+     "x": 0.1532,
+     "y": 0.0475
+    },
+    "green": {
+     "x": 0.17,
+     "y": 0.7
+    },
+    "red": {
+     "x": 0.6915,
+     "y": 0.3083
+    }
+   },
+   "gamut_type": "C",
+   "xy": {
+    "x": 0.4583,
+    "y": 0.4099
+   }
+  },
+  "color_temperature": {
+   "mirek": 367,
+   "mirek_schema": {
+    "mirek_maximum": 500,
+    "mirek_minimum": 153
+   },
+   "mirek_valid": true
+  },
+  "color_temperature_delta": {},
+  "dimming": {
+   "brightness": 0.0,
+   "min_dim_level": 0.04
+  },
+  "dimming_delta": {},
+  "dynamics": {
+   "speed": 0.0,
+   "speed_valid": false,
+   "status": "none",
+   "status_values": [
+    "none",
+    "dynamic_palette"
+   ]
+  },
+  "effects": {
+   "effect_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ]
+  },
+  "effects_v2": {
+   "action": {
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   },
+   "status": {
+    "effect": "no_effect",
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   }
+  },
+  "id": "00000000-0000-4000-8000-2b157da16236",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_lightstrip",
+   "function": "decorative",
+   "name": "Light 2"
+  },
+  "mode": "normal",
+  "on": {
+   "on": false
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-71fb3decb68b",
+   "rtype": "device"
+  },
+  "powerup": {
+   "color": {
+    "color_temperature": {
+     "mirek": 367
+    },
+    "mode": "color_temperature"
+   },
+   "configured": true,
+   "dimming": {
+    "dimming": {
+     "brightness": 100.0
+    },
+    "mode": "dimming"
+   },
+   "on": {
+    "mode": "on",
+    "on": {
+     "on": true
+    }
+   },
+   "preset": "safety"
+  },
+  "product_data": {
+   "function": "decorative"
+  },
+  "service_id": 0,
+  "signaling": {
+   "signal_values": [
+    "no_signal",
+    "on_off",
+    "on_off_color",
+    "alternating"
+   ]
+  },
+  "timed_effects": {
+   "effect_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ]
+  },
+  "type": "light"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "color": {
+   "gamut": {
+    "blue": {
+     "x": 0.1532,
+     "y": 0.0475
+    },
+    "green": {
+     "x": 0.17,
+     "y": 0.7
+    },
+    "red": {
+     "x": 0.6915,
+     "y": 0.3083
+    }
+   },
+   "gamut_type": "C",
+   "xy": {
+    "x": 0.4583,
+    "y": 0.4099
+   }
+  },
+  "color_temperature": {
+   "mirek": 367,
+   "mirek_schema": {
+    "mirek_maximum": 500,
+    "mirek_minimum": 153
+   },
+   "mirek_valid": true
+  },
+  "color_temperature_delta": {},
+  "dimming": {
+   "brightness": 100.0,
+   "min_dim_level": 0.1
+  },
+  "dimming_delta": {},
+  "dynamics": {
+   "speed": 0.0,
+   "speed_valid": false,
+   "status": "none",
+   "status_values": [
+    "none",
+    "dynamic_palette"
+   ]
+  },
+  "effects": {
+   "effect_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ]
+  },
+  "effects_v2": {
+   "action": {
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   },
+   "status": {
+    "effect": "no_effect",
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   }
+  },
+  "id": "00000000-0000-4000-8000-ec5ff103c62a",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_play",
+   "function": "decorative",
+   "name": "Light 3"
+  },
+  "mode": "normal",
+  "on": {
+   "on": false
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-52a99d0e4305",
+   "rtype": "device"
+  },
+  "powerup": {
+   "color": {
+    "color_temperature": {
+     "mirek": 366
+    },
+    "mode": "color_temperature"
+   },
+   "configured": true,
+   "dimming": {
+    "dimming": {
+     "brightness": 100.0
+    },
+    "mode": "dimming"
+   },
+   "on": {
+    "mode": "on",
+    "on": {
+     "on": true
+    }
+   },
+   "preset": "safety"
+  },
+  "product_data": {
+   "function": "decorative"
+  },
+  "service_id": 0,
+  "signaling": {
+   "signal_values": [
+    "no_signal",
+    "on_off",
+    "on_off_color",
+    "alternating"
+   ]
+  },
+  "timed_effects": {
+   "effect_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ]
+  },
+  "type": "light"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "color": {
+   "gamut": {
+    "blue": {
+     "x": 0.1532,
+     "y": 0.0475
+    },
+    "green": {
+     "x": 0.17,
+     "y": 0.7
+    },
+    "red": {
+     "x": 0.6915,
+     "y": 0.3083
+    }
+   },
+   "gamut_type": "C",
+   "xy": {
+    "x": 0.1877,
+    "y": 0.0937
+   }
+  },
+  "color_temperature": {
+   "mirek": null,
+   "mirek_schema": {
+    "mirek_maximum": 500,
+    "mirek_minimum": 153
+   },
+   "mirek_valid": false
+  },
+  "color_temperature_delta": {},
+  "dimming": {
+   "brightness": 100.0,
+   "min_dim_level": 0.04
+  },
+  "dimming_delta": {},
+  "dynamics": {
+   "speed": 0.0,
+   "speed_valid": false,
+   "status": "none",
+   "status_values": [
+    "none",
+    "dynamic_palette"
+   ]
+  },
+  "effects": {
+   "effect_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ]
+  },
+  "effects_v2": {
+   "action": {
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   },
+   "status": {
+    "effect": "no_effect",
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   }
+  },
+  "id": "00000000-0000-4000-8000-175b824ab513",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_lightstrip",
+   "function": "decorative",
+   "name": "Light 4"
+  },
+  "mode": "normal",
+  "on": {
+   "on": true
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-c25325dd1e21",
+   "rtype": "device"
+  },
+  "powerup": {
+   "color": {
+    "color_temperature": {
+     "mirek": 366
+    },
+    "mode": "color_temperature"
+   },
+   "configured": true,
+   "dimming": {
+    "dimming": {
+     "brightness": 100.0
+    },
+    "mode": "dimming"
+   },
+   "on": {
+    "mode": "on",
+    "on": {
+     "on": true
+    }
+   },
+   "preset": "safety"
+  },
+  "product_data": {
+   "function": "decorative"
+  },
+  "service_id": 0,
+  "signaling": {
+   "signal_values": [
+    "no_signal",
+    "on_off",
+    "on_off_color",
+    "alternating"
+   ]
+  },
+  "timed_effects": {
+   "effect_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ]
+  },
+  "type": "light"
+ },
+ {
+  "alert": {
+   "action_values": [
+    "breathe"
+   ]
+  },
+  "color": {
+   "gamut": {
+    "blue": {
+     "x": 0.1532,
+     "y": 0.0475
+    },
+    "green": {
+     "x": 0.17,
+     "y": 0.7
+    },
+    "red": {
+     "x": 0.6915,
+     "y": 0.3083
+    }
+   },
+   "gamut_type": "C",
+   "xy": {
+    "x": 0.4583,
+    "y": 0.4099
+   }
+  },
+  "color_temperature": {
+   "mirek": 367,
+   "mirek_schema": {
+    "mirek_maximum": 500,
+    "mirek_minimum": 153
+   },
+   "mirek_valid": true
+  },
+  "color_temperature_delta": {},
+  "dimming": {
+   "brightness": 100.0,
+   "min_dim_level": 0.1
+  },
+  "dimming_delta": {},
+  "dynamics": {
+   "speed": 0.0,
+   "speed_valid": false,
+   "status": "none",
+   "status_values": [
+    "none",
+    "dynamic_palette"
+   ]
+  },
+  "effects": {
+   "effect_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "candle",
+    "fire",
+    "prism",
+    "sparkle",
+    "opal",
+    "glisten",
+    "underwater",
+    "cosmos",
+    "sunbeam",
+    "enchant"
+   ]
+  },
+  "effects_v2": {
+   "action": {
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   },
+   "status": {
+    "effect": "no_effect",
+    "effect_values": [
+     "no_effect",
+     "candle",
+     "fire",
+     "prism",
+     "sparkle",
+     "opal",
+     "glisten",
+     "underwater",
+     "cosmos",
+     "sunbeam",
+     "enchant"
+    ]
+   }
+  },
+  "id": "00000000-0000-4000-8000-a7f92b51da83",
+  "identify": {},
+  "metadata": {
+   "archetype": "hue_play",
+   "function": "decorative",
+   "name": "Light 5"
+  },
+  "mode": "normal",
+  "on": {
+   "on": false
+  },
+  "owner": {
+   "rid": "00000000-0000-4000-8000-ecb063cce42d",
+   "rtype": "device"
+  },
+  "powerup": {
+   "color": {
+    "color_temperature": {
+     "mirek": 366
+    },
+    "mode": "color_temperature"
+   },
+   "configured": true,
+   "dimming": {
+    "dimming": {
+     "brightness": 100.0
+    },
+    "mode": "dimming"
+   },
+   "on": {
+    "mode": "on",
+    "on": {
+     "on": true
+    }
+   },
+   "preset": "safety"
+  },
+  "product_data": {
+   "function": "decorative"
+  },
+  "service_id": 0,
+  "signaling": {
+   "signal_values": [
+    "no_signal",
+    "on_off",
+    "on_off_color",
+    "alternating"
+   ]
+  },
+  "timed_effects": {
+   "effect_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ],
+   "status": "no_effect",
+   "status_values": [
+    "no_effect",
+    "sunrise",
+    "sunset"
+   ]
+  },
+  "type": "light"
+ },
+ {
+  "children": [
+   {
+    "rid": "00000000-0000-4000-8000-ecb063cce42d",
+    "rtype": "device"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-52a99d0e4305",
+    "rtype": "device"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-71fb3decb68b",
+    "rtype": "device"
+   }
+  ],
+  "id": "00000000-0000-4000-8000-7b37367748e0",
+  "metadata": {
+   "archetype": "living_room",
+   "name": "Room 1"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-0367d069d0bd",
+    "rtype": "grouped_light"
+   }
+  ],
+  "type": "room"
+ },
+ {
+  "children": [
+   {
+    "rid": "00000000-0000-4000-8000-c25325dd1e21",
+    "rtype": "device"
+   },
+   {
+    "rid": "00000000-0000-4000-8000-695a698db964",
+    "rtype": "device"
+   }
+  ],
+  "id": "00000000-0000-4000-8000-372bf3597642",
+  "metadata": {
+   "archetype": "office",
+   "name": "Room 2"
+  },
+  "services": [
+   {
+    "rid": "00000000-0000-4000-8000-94bedab97658",
+    "rtype": "grouped_light"
+   }
+  ],
+  "type": "room"
+ },
+ {
+  "actions": [
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 447
+     },
+     "dimming": {
+      "brightness": 56.25
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-a7f92b51da83",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 447
+     },
+     "dimming": {
+      "brightness": 56.25
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 447
+     },
+     "dimming": {
+      "brightness": 56.25
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-2b157da16236",
+     "rtype": "light"
+    }
+   }
+  ],
+  "auto_dynamic": false,
+  "group": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-9b51c074b87f",
+  "last_actions_update": {
+   "source": "clip"
+  },
+  "metadata": {
+   "image": {
+    "rid": "00000000-0000-4000-8000-d916cc8b8811",
+    "rtype": "public_image"
+   },
+   "name": "Scene 1"
+  },
+  "palette": {
+   "color": [],
+   "color_temperature": [
+    {
+     "color_temperature": {
+      "mirek": 447
+     },
+     "dimming": {
+      "brightness": 56.25
+     }
+    }
+   ],
+   "dimming": [],
+   "effects": [],
+   "effects_v2": []
+  },
+  "recall": {},
+  "speed": 0.603,
+  "status": {
+   "active": "inactive",
+   "last_recall": "2000-01-01T00:00:00.000Z"
+  },
+  "type": "scene"
+ },
+ {
+  "actions": [
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 346
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-a7f92b51da83",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 346
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 346
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-2b157da16236",
+     "rtype": "light"
+    }
+   }
+  ],
+  "auto_dynamic": false,
+  "group": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-91de4851434f",
+  "last_actions_update": {
+   "source": "clip"
+  },
+  "metadata": {
+   "image": {
+    "rid": "00000000-0000-4000-8000-375420c7ccb2",
+    "rtype": "public_image"
+   },
+   "name": "Scene 2"
+  },
+  "palette": {
+   "color": [],
+   "color_temperature": [
+    {
+     "color_temperature": {
+      "mirek": 346
+     },
+     "dimming": {
+      "brightness": 100.0
+     }
+    }
+   ],
+   "dimming": [],
+   "effects": [],
+   "effects_v2": []
+  },
+  "recall": {},
+  "speed": 0.603,
+  "status": {
+   "active": "inactive",
+   "last_recall": "2000-01-01T00:00:00.000Z"
+  },
+  "type": "scene"
+ },
+ {
+  "actions": [
+   {
+    "action": {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 35.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-a7f92b51da83",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 35.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 35.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-2b157da16236",
+     "rtype": "light"
+    }
+   }
+  ],
+  "auto_dynamic": false,
+  "group": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-3bb3e6c2693a",
+  "last_actions_update": {
+   "source": "clip"
+  },
+  "metadata": {
+   "image": {
+    "rid": "00000000-0000-4000-8000-635e6ea2ef90",
+    "rtype": "public_image"
+   },
+   "name": "Scene 3"
+  },
+  "palette": {
+   "color": [
+    {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 35.0
+     }
+    }
+   ],
+   "color_temperature": [],
+   "dimming": [],
+   "effects": [],
+   "effects_v2": []
+  },
+  "recall": {},
+  "speed": 0.603,
+  "status": {
+   "active": "inactive",
+   "last_recall": "2000-01-01T00:00:00.000Z"
+  },
+  "type": "scene"
+ },
+ {
+  "actions": [
+   {
+    "action": {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 10.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-a7f92b51da83",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 10.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 10.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-2b157da16236",
+     "rtype": "light"
+    }
+   }
+  ],
+  "auto_dynamic": false,
+  "group": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-37036958e408",
+  "last_actions_update": {
+   "source": "clip"
+  },
+  "metadata": {
+   "image": {
+    "rid": "00000000-0000-4000-8000-3d280e710020",
+    "rtype": "public_image"
+   },
+   "name": "Scene 4"
+  },
+  "palette": {
+   "color": [
+    {
+     "color": {
+      "xy": {
+       "x": 0.5609999,
+       "y": 0.4042
+      }
+     },
+     "dimming": {
+      "brightness": 0.0
+     }
+    }
+   ],
+   "color_temperature": [],
+   "dimming": [],
+   "effects": [],
+   "effects_v2": []
+  },
+  "recall": {},
+  "speed": 0.603,
+  "status": {
+   "active": "inactive",
+   "last_recall": "2000-01-01T00:00:00.000Z"
+  },
+  "type": "scene"
+ },
+ {
+  "actions": [
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 233
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-a7f92b51da83",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 233
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 233
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-2b157da16236",
+     "rtype": "light"
+    }
+   }
+  ],
+  "auto_dynamic": false,
+  "group": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-257cfa9843a1",
+  "last_actions_update": {
+   "source": "clip"
+  },
+  "metadata": {
+   "image": {
+    "rid": "00000000-0000-4000-8000-6f27aaf071b7",
+    "rtype": "public_image"
+   },
+   "name": "Scene 5"
+  },
+  "palette": {
+   "color": [],
+   "color_temperature": [
+    {
+     "color_temperature": {
+      "mirek": 233
+     },
+     "dimming": {
+      "brightness": 100.0
+     }
+    }
+   ],
+   "dimming": [],
+   "effects": [],
+   "effects_v2": []
+  },
+  "recall": {},
+  "speed": 0.603,
+  "status": {
+   "active": "inactive",
+   "last_recall": "2000-01-01T00:00:00.000Z"
+  },
+  "type": "scene"
+ },
+ {
+  "actions": [
+   {
+    "action": {
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-c649c9c147a9",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-175b824ab513",
+     "rtype": "light"
+    }
+   }
+  ],
+  "auto_dynamic": false,
+  "group": {
+   "rid": "00000000-0000-4000-8000-372bf3597642",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-e2ad172ccb68",
+  "last_actions_update": {
+   "source": "autogrow"
+  },
+  "metadata": {
+   "name": "Scene 6"
+  },
+  "palette": {
+   "color": [],
+   "color_temperature": [],
+   "dimming": [
+    {
+     "brightness": 100.0
+    }
+   ],
+   "effects": [],
+   "effects_v2": []
+  },
+  "recall": {},
+  "speed": 0.603,
+  "status": {
+   "active": "inactive",
+   "last_recall": "2000-01-01T00:00:00.000Z"
+  },
+  "type": "scene"
+ },
+ {
+  "actions": [
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 156
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-a7f92b51da83",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 156
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-ec5ff103c62a",
+     "rtype": "light"
+    }
+   },
+   {
+    "action": {
+     "color_temperature": {
+      "mirek": 156
+     },
+     "dimming": {
+      "brightness": 100.0
+     },
+     "on": {
+      "on": true
+     }
+    },
+    "target": {
+     "rid": "00000000-0000-4000-8000-2b157da16236",
+     "rtype": "light"
+    }
+   }
+  ],
+  "auto_dynamic": false,
+  "group": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-4f4983641c88",
+  "last_actions_update": {
+   "source": "clip"
+  },
+  "metadata": {
+   "image": {
+    "rid": "00000000-0000-4000-8000-250ff6f92fc4",
+    "rtype": "public_image"
+   },
+   "name": "Scene 7"
+  },
+  "palette": {
+   "color": [],
+   "color_temperature": [
+    {
+     "color_temperature": {
+      "mirek": 156
+     },
+     "dimming": {
+      "brightness": 100.0
+     }
+    }
+   ],
+   "dimming": [],
+   "effects": [],
+   "effects_v2": []
+  },
+  "recall": {},
+  "speed": 0.603,
+  "status": {
+   "active": "inactive",
+   "last_recall": "2000-01-01T00:00:00.000Z"
+  },
+  "type": "scene"
+ },
+ {
+  "active_timeslot": {
+   "timeslot_id": 5,
+   "weekday": "monday"
+  },
+  "group": {
+   "rid": "00000000-0000-4000-8000-7b37367748e0",
+   "rtype": "room"
+  },
+  "id": "00000000-0000-4000-8000-442bc182c347",
+  "metadata": {
+   "image": {
+    "rid": "00000000-0000-4000-8000-7acbc3a5bf42",
+    "rtype": "public_image"
+   },
+   "name": "Smart Scene 1"
+  },
+  "state": "inactive",
+  "transition_duration": 60000,
+  "type": "smart_scene",
+  "week_timeslots": [
+   {
+    "recurrence": [
+     "sunday",
+     "monday",
+     "tuesday",
+     "wednesday",
+     "thursday",
+     "friday",
+     "saturday"
+    ],
+    "timeslots": [
+     {
+      "start_time": {
+       "kind": "time",
+       "time": {
+        "hour": 8,
+        "minute": 0,
+        "second": 0
+       }
+      },
+      "target": {
+       "rid": "00000000-0000-4000-8000-4f4983641c88",
+       "rtype": "scene"
+      }
+     },
+     {
+      "start_time": {
+       "kind": "time",
+       "time": {
+        "hour": 12,
+        "minute": 0,
+        "second": 0
+       }
+      },
+      "target": {
+       "rid": "00000000-0000-4000-8000-257cfa9843a1",
+       "rtype": "scene"
+      }
+     },
+     {
+      "start_time": {
+       "kind": "sunset",
+       "time": {
+        "hour": 0,
+        "minute": 0,
+        "second": 0
+       }
+      },
+      "target": {
+       "rid": "00000000-0000-4000-8000-91de4851434f",
+       "rtype": "scene"
+      }
+     },
+     {
+      "start_time": {
+       "kind": "time",
+       "time": {
+        "hour": 18,
+        "minute": 0,
+        "second": 0
+       }
+      },
+      "target": {
+       "rid": "00000000-0000-4000-8000-9b51c074b87f",
+       "rtype": "scene"
+      }
+     },
+     {
+      "start_time": {
+       "kind": "time",
+       "time": {
+        "hour": 21,
+        "minute": 0,
+        "second": 0
+       }
+      },
+      "target": {
+       "rid": "00000000-0000-4000-8000-3bb3e6c2693a",
+       "rtype": "scene"
+      }
+     },
+     {
+      "start_time": {
+       "kind": "time",
+       "time": {
+        "hour": 23,
+        "minute": 0,
+        "second": 0
+       }
+      },
+      "target": {
+       "rid": "00000000-0000-4000-8000-37036958e408",
+       "rtype": "scene"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "00000000-0000-4000-8000-77f12e544f73",
+  "mac_address": "00:17:88:01:00:00:00:36",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-52a99d0e4305",
+   "rtype": "device"
+  },
+  "status": "connected",
+  "type": "zigbee_connectivity"
+ },
+ {
+  "channel": {
+   "status": "set",
+   "value": "channel_11"
+  },
+  "extended_pan_id": "0000000000000000",
+  "id": "00000000-0000-4000-8000-96bf2f9535cd",
+  "mac_address": "00:17:88:01:00:00:00:37",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-d95570c18069",
+   "rtype": "device"
+  },
+  "status": "connected",
+  "type": "zigbee_connectivity"
+ },
+ {
+  "id": "00000000-0000-4000-8000-cb9d34d23102",
+  "mac_address": "00:17:88:01:00:00:00:38",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-c25325dd1e21",
+   "rtype": "device"
+  },
+  "status": "connected",
+  "type": "zigbee_connectivity"
+ },
+ {
+  "id": "00000000-0000-4000-8000-54f7d41c4675",
+  "mac_address": "00:17:88:01:00:00:00:39",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-71fb3decb68b",
+   "rtype": "device"
+  },
+  "status": "connected",
+  "type": "zigbee_connectivity"
+ },
+ {
+  "id": "00000000-0000-4000-8000-16b16f5d7fc5",
+  "mac_address": "00:17:88:01:00:00:00:3a",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-695a698db964",
+   "rtype": "device"
+  },
+  "status": "connected",
+  "type": "zigbee_connectivity"
+ },
+ {
+  "id": "00000000-0000-4000-8000-f4535fd74caa",
+  "mac_address": "00:17:88:01:00:00:00:3b",
+  "owner": {
+   "rid": "00000000-0000-4000-8000-ecb063cce42d",
+   "rtype": "device"
+  },
+  "status": "connected",
+  "type": "zigbee_connectivity"
+ }
+]
