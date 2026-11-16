@@ -1,11 +1,10 @@
 # Hue Lights for Omarchy
 
-A bar widget for [Omarchy](https://omarchy.org) that controls a Philips Hue
-system from a panel under the bar. A small Python backend (standard library
-only) talks to the bridge; the QML panel only displays state and sends
-commands. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/PROTOCOL.md](docs/PROTOCOL.md).
+Hue Lights is a bar widget for [Omarchy](https://omarchy.org). It controls a Philips Hue system from a panel under the bar.
 
-Manifest id: `francisilagan.hue-lights`, version 1.0.0.
+A small Python backend talks to the bridge. The backend uses only the Python standard library. The QML panel shows the state and sends commands. For more data, read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/PROTOCOL.md](docs/PROTOCOL.md).
+
+Manifest id: `francisilagan.hue-lights`. Version: 1.0.0.
 
 <p>
   <img src="docs/lights.png" width="260" alt="Lights tab">
@@ -14,48 +13,40 @@ Manifest id: `francisilagan.hue-lights`, version 1.0.0.
 </p>
 <p><img src="docs/wallpaper-sync.png" width="260" alt="Wallpaper sync card"></p>
 
-<sub>Screenshots are rendered from the sanitised test fixture, not a real home.</sub>
+<sub>The screenshots come from the sanitized test fixture. They do not show a real home.</sub>
 
 ## Features
 
-- Rooms and zones: power, brightness, colour and white temperature for a whole
-  group or per light; create, edit and delete zones.
-- Colour, white and effects: colour picker, white temperature within each
-  light's range, light effects and timed effects, identify (blink), power-up
-  behaviour, rename.
-- Scenes: recall (active, dynamic or static), create from the current look,
-  re-save, rename, delete, dynamic speed and auto-dynamic.
+- Rooms and zones: set power, brightness, colour, and white temperature for a group or for each light. Create, edit, and delete zones.
+- Colour, white, and effects: use the colour picker. Set the white temperature in the range of each light. Use light effects and timed effects. Identify a light (it blinks). Set the power-up behaviour. Rename a light.
+- Scenes: recall a scene (active, dynamic, or static). Create a scene from the current look. Save again, rename, and delete a scene. Set the dynamic speed and auto-dynamic.
 - Routines: recall and deactivate smart scenes.
-- Automations: enable or disable the bridge's automations.
-- Entertainment areas: listed with their status, with a stop button.
-- Devices: accessories, sensors (motion, temperature, light level, contact,
-  buttons), battery, firmware update state, the bridge itself; motion and
-  similar sensing can be switched on and off.
-- Wallpaper sync: colours your lights from the current Omarchy wallpaper.
-- Live updates: the backend follows the bridge's event stream, so changes made
-  in the Hue app or by switches appear in the panel.
+- Automations: enable or disable the automations of the bridge.
+- Entertainment areas: the panel lists each area with its status. It has a stop button.
+- Devices: the panel shows accessories, sensors, battery, firmware update state, and the bridge. The sensors are motion, temperature, light level, contact, and buttons. You can enable or disable motion sensing and similar sensing.
+- Wallpaper sync: the backend sets the colour of your lights from the current Omarchy wallpaper.
+- Live updates: the backend follows the event stream of the bridge. Changes from the Hue app or from switches show in the panel.
 
 ## Requirements
 
-- Omarchy with its Quickshell-based shell and shell plugins: the widget uses
-  the plugin API (`omarchy plugin`), `qs.Ui`'s `KeyboardPanel` and
-  `Commons.Translations`. Tested on Omarchy 4.5.0; releases without those are
-  not supported.
-- `python3` 3.9 or newer (no pip packages).
+- Omarchy with its Quickshell-based shell and its shell plugins. The widget uses the plugin API (`omarchy plugin`), `KeyboardPanel` from `qs.Ui`, and `Commons.Translations`. The widget is tested on Omarchy 4.5.0. Releases without these parts are not supported.
+- `python3` 3.9 or newer. No pip packages are necessary.
 - A Hue bridge (v2, CLIP v2 API) on your local network.
-- Optional, wallpaper sync only: ImageMagick (`magick`), and `ffmpeg` for
-  video or GIF wallpapers.
+- Optional, for wallpaper sync only: ImageMagick (`magick`). For video or GIF wallpapers, also `ffmpeg`.
 
 ## Install
+
+Run this command:
 
 ```
 omarchy plugin add https://github.com/francisilagan/omarchy-hue.git
 ```
 
-Or manually: clone the repository into your Omarchy plugins directory, in a
-folder named exactly after the manifest id (`omarchy plugin update` and
-`omarchy plugin remove` look for `~/.config/omarchy/plugins/<id>`), then let
-the shell find it and enable it:
+To install the plugin by hand:
+
+1. Clone the repository into your Omarchy plugins directory. The folder name must be the same as the manifest id. The commands `omarchy plugin update` and `omarchy plugin remove` look for `~/.config/omarchy/plugins/<id>`.
+2. Let the shell find the plugin.
+3. Enable the plugin.
 
 ```
 git clone https://github.com/francisilagan/omarchy-hue ~/.config/omarchy/plugins/francisilagan.hue-lights
@@ -63,10 +54,13 @@ omarchy-shell shell rescanPlugins
 omarchy plugin enable francisilagan.hue-lights
 ```
 
-Then add the "Hue Lights" bar widget if it is not in the bar yet (it defaults
-to the right section). If you had an earlier copy in a folder with another
-name, delete that folder first, then enable the plugin again and re-add the
-"Hue Lights" bar widget.
+Add the "Hue Lights" bar widget if it is not in the bar. The default position is the right section.
+
+If you have an older copy in a folder with a different name:
+
+1. Delete that folder.
+2. Enable the plugin again.
+3. Add the "Hue Lights" bar widget again.
 
 ## Update and remove
 
@@ -75,102 +69,116 @@ omarchy plugin update francisilagan.hue-lights
 omarchy plugin remove francisilagan.hue-lights
 ```
 
-Removing the plugin deletes its folder only. Your bridge key and settings stay in
-`~/.config/omarchy/hue-lights/` and the log in `~/.local/state/omarchy/hue-lights/`;
-delete those directories too for a complete removal. The key also remains
-registered on the bridge until you remove it in the Hue app.
+The remove command deletes only the folder of the plugin. These data stay on your computer:
 
-## Pairing
+- Your bridge key and settings: `~/.config/omarchy/hue-lights/`
+- The log: `~/.local/state/omarchy/hue-lights/`
 
-Open the widget; with no bridge paired it shows a pairing view with three ways in:
+To remove the plugin completely, delete these two directories also. The key stays registered on the bridge. To remove the key, use the Hue app.
 
-1. **Use my openhue login**: adopts the bridge and key from the `openhue` CLI
-   config (`~/.config/openhue/config.yaml`).
-2. **Find my bridge**: asks Philips' discovery service for bridges on your
-   network (opt-in, see [docs/PRIVACY.md](docs/PRIVACY.md)).
-3. **Manual IP**: type the bridge's address, press "Pair with this bridge",
-   then press the round link button on the bridge within about 40 seconds.
+## Pair with the bridge
 
-## Usage
+Open the widget. If no bridge is paired, the widget shows the pairing view. The view has three methods:
 
-Bar button: left click opens the panel, right click turns every light on or
-off, middle click refreshes.
+1. **Use my openhue login**: the plugin copies the bridge and the key from the `openhue` CLI config (`~/.config/openhue/config.yaml`).
+2. **Find my bridge**: the plugin asks the discovery service of Philips for bridges on your network. This method is opt-in. For details, read [docs/PRIVACY.md](docs/PRIVACY.md).
+3. **Manual IP**: type the address of the bridge. Press "Pair with this bridge". Then press the round link button on the bridge within about 40 seconds.
 
-Panel keys:
+## Use the widget
 
-| key | does |
+Use the bar button as follows:
+
+| Click | Action |
 |---|---|
-| `↓` / `j`, `↑` / `k` | move the cursor through the current tab's rows: room and zone switches, scene and routine chips, the "N lights" disclosure and each light's switch, automation switches, sensor switches, the wallpaper sync toggles, room chips and "Sync now". Past the first or last row (or on a tab without rows) they scroll. |
-| `Space` / `Enter` | switch or press the row under the cursor; with no cursor shown, turn every light on or off |
-| `←` / `h`, `→` / `l`, `1`-`4` | Lights, Scenes, Automations, Devices (a new tab starts with no cursor) |
-| `a` | every light on or off |
-| `r` | refresh |
-| `Tab` / `Shift+Tab` | next or previous bar panel |
-| `Esc` | close |
+| Left | Open the panel. |
+| Right | Turn every light on or off. |
+| Middle | Refresh. |
 
-While a text field (a name, the bridge address) has focus it gets every key;
-`Esc` there hands the keys back to the panel.
+Use these keys in the panel:
+
+| Key | Action |
+|---|---|
+| `↓` or `j`, `↑` or `k` | Move the cursor through the rows of the current tab. The rows are: switches for rooms and zones, chips for scenes and routines, the "N lights" disclosure, the switch of each light, switches for automations and sensors, the wallpaper sync toggles, room chips, and "Sync now". After the first or last row, the keys scroll the panel. On a tab with no rows, they also scroll the panel. |
+| `Space` or `Enter` | Operate the row at the cursor. If no cursor shows, turn every light on or off. |
+| `←` or `h`, `→` or `l`, `1` to `4` | Show the tab Lights, Scenes, Automations, or Devices. A new tab starts with no cursor. |
+| `a` | Turn every light on or off. |
+| `r` | Refresh. |
+| `Tab`, `Shift+Tab` | Show the next or the previous bar panel. |
+| `Esc` | Close the panel. |
+
+When a text field has focus, the field gets every key. A text field is a name or the bridge address. Press `Esc` to give the keys back to the panel.
 
 ## Wallpaper sync
 
-The backend watches Omarchy's current-background link. When the wallpaper
-changes it reads a palette with ImageMagick (one frame via ffmpeg for videos
-and GIFs), picks up to six distinct, vivid colours, and assigns them to the
-colour-capable, reachable lights in the rooms you choose (all rooms if none
-are chosen). Brightness is never changed. Options in the panel: enabled,
-target rooms or zones, "also switch lights on". The transition time (default
-2500 ms, 0-60000) has no control in the panel: set `transitionMs` under
-`wallpaper` in `settings.json` (see Files); the backend reads that file when it
-starts, so restart the shell after editing it. "Sync now" applies once. The
-palette preview updates even while sync is off. The card shows how many lights
-the last apply coloured and when, and how many colour lights the next one
-would reach; if that is none while sync is on, it says why (the lights in
-those rooms are off and "also switch lights on" is off, or the rooms have no
-colour lights). If sync is on but no palette can be read from the wallpaper,
-the card asks whether ImageMagick (`magick`) is installed.
+The backend watches the link to the current Omarchy background. When the wallpaper changes, the backend does these steps:
+
+1. It reads a palette with ImageMagick. For videos and GIFs, it reads one frame with ffmpeg.
+2. It picks up to six different, vivid colours.
+3. It assigns the colours to the lights that can show colour and that the bridge can reach. It uses the lights in the rooms you choose. If you choose no room, it uses all rooms.
+
+The backend never changes the brightness.
+
+These options are in the panel:
+
+- Enabled
+- Target rooms or zones
+- "Also switch lights on"
+
+The default transition time is 2500 ms. The range is 0 to 60000 ms. The panel has no control for the transition time. To change it:
+
+1. Set `transitionMs` under `wallpaper` in `settings.json` (see [Files](#files)).
+2. Restart the shell. The backend reads the file only when it starts.
+
+The card in the panel shows this data:
+
+- How many lights the last apply set to a colour, and when it happened.
+- How many colour lights the next apply can reach.
+
+"Sync now" applies the colours one time. The palette preview updates also when sync is off.
+
+If sync is on and no light can be reached, the card shows the reason. These are the possible reasons:
+
+- The lights in the selected rooms are off, and "also switch lights on" is off.
+- The selected rooms have no colour lights.
+
+If sync is on and the backend cannot read a palette from the wallpaper, the card asks if ImageMagick (`magick`) is installed.
 
 ## Languages
 
-The panel follows the language picked under Setup > Language, live, through
-Omarchy's own mechanism (`Commons.Translations`). Its words live in flat JSON
-catalogs in `qml/i18n/`, one per Omarchy language code; only English (`en.json`)
-ships so far, and any string a translation lacks falls back to English.
+The panel follows the language that you select under Setup > Language. The change is live. The panel uses the mechanism of Omarchy (`Commons.Translations`).
+
+The words are in flat JSON catalogs in `qml/i18n/`. There is one catalog for each Omarchy language code. At this time, only English (`en.json`) is available. If a translation does not have a string, the panel uses the English string.
 
 To add a language:
 
-1. Copy `qml/i18n/en.json` to `qml/i18n/<code>.json`, using a code from
-   `$OMARCHY_PATH/default/i18n/locales.json` (`de`, `pt-BR`, ...). A regional
-   file (`pt-BR`) falls back to its base (`pt`) before English.
-2. Translate the values, never the keys. Keep `%1`, `%2` holes (they may move
-   within the sentence) and keep brand names (Hue, Philips, openhue).
-3. Entries that are objects are plurals keyed by CLDR category. Supply the
-   categories your language uses (`one`/`other` for German, `one`/`few`/`many`
-   for Russian, only `other` for Japanese) and always `other`, which is the
-   fallback for any category left out; the rules are in
-   `$OMARCHY_PATH/shell/Commons/Plural.js`. `%1` there is the count.
-4. Keys like `effect.candle` or `updateState.installing` name values the bridge
-   reports; an id missing from the catalog shows the bridge's own word.
-5. Save: the panel re-reads the catalog without a restart. Run
-   `python3 tests/qml_smoke.py` to check the views still build.
+1. Copy `qml/i18n/en.json` to `qml/i18n/<code>.json`. Use a code from `$OMARCHY_PATH/default/i18n/locales.json`, for example `de` or `pt-BR`. A regional file (`pt-BR`) falls back to its base file (`pt`) first. Then it falls back to English.
+2. Translate the values. Do not translate the keys. Keep the `%1` and `%2` placeholders. The placeholders can move in the sentence. Keep the brand names (Hue, Philips, openhue).
+3. Some entries are objects. These entries are plurals, with CLDR categories as keys. Give the categories that your language uses. German uses `one` and `other`. Russian uses `one`, `few`, and `many`. Japanese uses only `other`. Always give `other`. The panel uses `other` for each category that you omit. The rules are in `$OMARCHY_PATH/shell/Commons/Plural.js`. In these entries, `%1` is the count.
+4. Keys such as `effect.candle` and `updateState.installing` name values that the bridge reports. If the catalog does not have an id, the panel shows the word of the bridge.
+5. Save the file. The panel reads the catalog again without a restart. Run `python3 tests/qml_smoke.py` to make sure that the views still build.
 
-Text the bridge or backend sends (sensor readings, error details, warnings)
-stays in English.
+The bridge and the backend send some text. This text stays in English. It includes sensor readings, error details, and warnings.
 
 ## Files
 
 | Path | Contents |
 |---|---|
-| `$XDG_CONFIG_HOME/omarchy/hue-lights/bridge.json` (0600) | bridge host, id, application key, pinned certificate fingerprint |
-| `$XDG_CONFIG_HOME/omarchy/hue-lights/settings.json` | wallpaper sync settings |
-| `$XDG_STATE_HOME/omarchy/hue-lights/hue.log` | rotating diagnostic log (0600) |
+| `$XDG_CONFIG_HOME/omarchy/hue-lights/bridge.json` (0600) | Bridge host, bridge id, application key, pinned certificate fingerprint |
+| `$XDG_CONFIG_HOME/omarchy/hue-lights/settings.json` | Wallpaper sync settings |
+| `$XDG_STATE_HOME/omarchy/hue-lights/hue.log` (0600) | Rotating diagnostic log |
 
-`XDG_CONFIG_HOME` defaults to `~/.config` and `XDG_STATE_HOME` to
-`~/.local/state`. Wallpaper settings are migrated once from the older
-`~/.config/omarchy/hue-wallpaper.json` if present. The plugin also reads
-`~/.config/openhue/config.yaml` when you choose "Use my openhue login" and
-the symlink `~/.local/state/omarchy/current/background`.
+`XDG_CONFIG_HOME` is `~/.config` by default. `XDG_STATE_HOME` is `~/.local/state` by default.
+
+If the file `~/.config/omarchy/hue-wallpaper.json` exists, the plugin moves its wallpaper settings one time to `settings.json`.
+
+The plugin also reads these two files:
+
+- `~/.config/openhue/config.yaml`, only when you choose "Use my openhue login".
+- The symlink `~/.local/state/omarchy/current/background`.
 
 ## Development
+
+Run the tests:
 
 ```
 python3 -m unittest discover -s tests
@@ -178,46 +186,59 @@ node --test tests/model.test.js
 python3 tests/qml_smoke.py
 ```
 
-The smoke test renders every view offscreen and needs `quickshell` plus
-Omarchy's shell modules (`OMARCHY_SHELL`, default `/usr/share/omarchy/shell`).
-It runs in English, then switches to a generated test pseudo-locale (never
-shipped) and fails if any catalog string is left untranslated; set
-`HUE_QML_SHOTS=DIR` to keep its PNGs. New user-visible text goes in
-`qml/i18n/en.json` and is read with `Hue.Strings.t(...)` (the Node tests fail on a
-key the catalog lacks, or a catalog entry nothing uses).
-`python3 backend snapshot` prints a snapshot from your own bridge. See
-[CONTRIBUTING.md](CONTRIBUTING.md).
+The smoke test renders every view offscreen. It needs `quickshell` and the shell modules of Omarchy (`OMARCHY_SHELL`, default `/usr/share/omarchy/shell`). The test runs in English. Then it switches to a generated test pseudo-locale, which the plugin never ships. The test fails if a catalog string stays untranslated. To keep the PNG files of the test, set `HUE_QML_SHOTS=DIR`.
+
+Put new text for the user in `qml/i18n/en.json`. Read it with `Hue.Strings.t(...)`. The Node tests fail in these cases:
+
+- A key is not in the catalog.
+- A catalog entry is not used.
+
+The command `python3 backend snapshot` prints a snapshot from your own bridge. For more data, read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Troubleshooting
 
-- **Bridge unreachable**: the backend retries with backoff. Check that the
-  bridge IP has not changed (give it a DHCP reservation) and that you are on
-  the same network. Middle-click the bar button or press `r` to resync (or,
-  with no connection, reconnect) now. If nothing has loaded since the shell
-  started, the panel shows a recovery card with **Retry** and **Pair with a different bridge** (two clicks: it forgets
-  the stored bridge and opens the pairing view, where you can enter the new IP).
-- **Certificate changed**: the bridge presented a different certificate from
-  the one pinned at pairing. This is normal after a bridge reset or
-  replacement; if you did not do either, do not trust it. Choose "Trust the
-  new certificate" only when you expect the change, or "Forget bridge".
-- **Unauthorized**: the bridge rejected the application key (for example after
-  a bridge reset). Pair again.
-- Anything else: look at `hue.log` in the state directory.
+**The bridge is unreachable.**
+The backend tries again with a growing delay. Do these checks:
 
-## Status / not yet
+1. Make sure that the IP address of the bridge did not change. Give the bridge a DHCP reservation.
+2. Make sure that you are on the same network as the bridge.
+3. Middle-click the bar button, or press `r`, to synchronize again now. If there is no connection, this action reconnects.
 
-Not done: translations other than English (see Languages), right-to-left
-mirroring, and packaging. The
-manifest exposes no settings on purpose: the only options the plugin has are
-the wallpaper sync ones, which the backend keeps in `settings.json` and the
-panel edits directly; a second copy in the bar's settings would disagree with it.
+If nothing loaded since the shell started, the panel shows a recovery card. The card has two buttons:
+
+- **Retry**
+- **Pair with a different bridge**: the plugin forgets the stored bridge and opens the pairing view. Click two times to confirm. In the pairing view, enter the new IP address.
+
+**The certificate changed.**
+The bridge shows a different certificate from the certificate that was pinned at pairing. This is normal after a bridge reset or a bridge replacement. If you did not do one of these actions, do not trust the new certificate. Choose "Trust the new certificate" only if you expect the change. If you do not, choose "Forget bridge".
+
+**Unauthorized.**
+The bridge rejected the application key. This can occur after a bridge reset. Pair again.
+
+**Other problems.**
+Read `hue.log` in the state directory.
+
+## Status and open items
+
+These items are not done:
+
+- Translations other than English (see [Languages](#languages)).
+- Right-to-left mirroring.
+- Packaging.
+
+The manifest shows no settings. This is on purpose. The plugin has only the wallpaper sync options. The backend keeps them in `settings.json`, and the panel edits them directly. A second copy in the settings of the bar can disagree with the first copy.
 
 ## Scripting
 
-`python3 backend status | toggle | room IDS… [--on|--off] [--brightness N] | scene ID`
-are one-shot commands for scripts (a custom bar module, a key binding, a
-cron job).
+These one-shot commands are for scripts, for example a custom bar module, a key binding, or a cron job:
+
+```
+python3 backend status
+python3 backend toggle
+python3 backend room IDS… [--on|--off] [--brightness N]
+python3 backend scene ID
+```
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).

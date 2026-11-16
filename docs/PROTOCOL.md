@@ -1,48 +1,47 @@
 # Backend protocol (v1)
 
-The QML side starts one long-lived process:
+The QML panel starts one long-lived process:
 
 ```
 python3 <plugin>/backend serve
 ```
 
-and talks to it with **newline-delimited JSON** (one object per line, UTF-8):
-commands go in on **stdin**, events come out on **stdout**. Nothing else is
-ever written to stdout; diagnostics go to the rotating log file. The process
-exits when stdin closes, so reloading the shell never leaves it behind.
+The panel and the backend use **newline-delimited JSON** (one object per line, UTF-8).
+The panel sends commands on **stdin**. The backend sends events on **stdout**.
+The backend writes nothing else to stdout. It writes diagnostics to the rotating log file.
+The process stops when stdin closes. Thus, a reload of the shell does not leave the process running.
 
 Bridge credentials never cross this channel.
 
 ## Commands (client → backend)
 
-Every command is `{"id": <int>, "cmd": "<name>", ...fields}`. The backend answers
-each one with exactly one `result` event carrying the same `id`.
+Each command has the form `{"id": <int>, "cmd": "<name>", ...fields}`. The backend sends exactly one `result` event with the same `id` for each command.
 
 | cmd | fields | notes |
 |---|---|---|
-| `refresh` | | Re-read every resource over the existing connection and emit `state` if anything changed. The connection and event stream are kept, so commands sent around it are unaffected. With no connection, it makes the backend retry connecting now. |
-| `set` | `kind` (`light`\|`group`), `ids[]`, any of `on`, `pct`, `hex`, `mirek`, `effect`, `timed{effect,duration}`, `duration` (ms), `identify` | `group` ids are the group's `group` field (its grouped_light), not the room id. |
+| `refresh` | | Reads again every resource over the existing connection. Sends `state` if a value changed. The backend keeps the connection and the event stream, so commands sent at the same time are not affected. If there is no connection, the backend tries to connect again now. |
+| `set` | `kind` (`light`\|`group`), `ids[]`, any of `on`, `pct`, `hex`, `mirek`, `effect`, `timed{effect,duration}`, `duration` (ms), `identify` | A `group` id is the `group` field of the group (its grouped_light). It is not the room id. |
 | `scene.recall` | `id`, `mode` (`active`\|`dynamic_palette`\|`static`), `duration?`, `pct?` | |
-| `scene.create` | `name`, `group` (room/zone id) | Saves the group's current look. |
-| `scene.update` | `id`, `name?`, `speed?`, `autoDynamic?`, `snapshot?` | `snapshot: true` re-saves the current look. |
+| `scene.create` | `name`, `group` (room/zone id) | Saves the current look of the group. |
+| `scene.update` | `id`, `name?`, `speed?`, `autoDynamic?`, `snapshot?` | `snapshot: true` saves the current look again. |
 | `scene.delete` | `id` | |
 | `smartScene` | `id`, `action` (`activate`\|`deactivate`) | |
 | `automation` | `id`, `enabled` | |
-| `rename` | `rtype` (`light`\|`room`\|`zone`\|`scene`\|`smart_scene`\|`device`), `id`, `name` | Renaming a light renames its device. |
+| `rename` | `rtype` (`light`\|`room`\|`zone`\|`scene`\|`smart_scene`\|`device`), `id`, `name` | When you rename a light, the backend renames its device. |
 | `powerup` | `id`, `preset` (`safety`\|`powerfail`\|`last_on_state`) | |
 | `zone.create` | `name`, `lights[]` | |
-| `zone.members` | `id`, `lights[]` | Replaces the member list. |
+| `zone.members` | `id`, `lights[]` | Replaces the list of members. |
 | `zone.delete` | `id` | |
 | `enable` | `rtype`, `id`, `enabled` | Sensors. |
 | `entertainment.stop` | `id` | |
-| `pair.importOpenhue` | | Adopt the bridge and key from the `openhue` CLI's config. |
-| `pair.discover` | | Ask `discovery.meethue.com` (a cloud call; only on request). |
-| `pair.start` | `host` | Link-button pairing. Answers `result` at once, sets `conn: pairing`, then emits `pair` events (about 40 s window). |
+| `pair.importOpenhue` | | Uses the bridge and the key from the config of the `openhue` CLI. |
+| `pair.discover` | | Sends a request to `discovery.meethue.com`. This is a cloud call. Send it only when the user asks. |
+| `pair.start` | `host` | Starts pairing with the link button. The backend sends `result` at once and sets `conn: pairing`. Then it sends `pair` events. The time window is about 40 s. |
 | `pair.cancel` | | |
-| `pair.trust` | | Accept the bridge's new certificate after a `cert_changed`. |
-| `pair.forget` | | Delete the stored bridge and key. |
-| `wallpaper.config` | any of `enabled`, `targets[]`, `turnOn`, `transitionMs` | Partial update; persists. |
-| `wallpaper.sync` | | Apply the wallpaper's colours now. |
+| `pair.trust` | | Accepts the new certificate of the bridge after a `cert_changed`. |
+| `pair.forget` | | Deletes the stored bridge and the stored key. |
+| `wallpaper.config` | any of `enabled`, `targets[]`, `turnOn`, `transitionMs` | Partial update. The backend saves the update. |
+| `wallpaper.sync` | | Applies the colours of the wallpaper now. |
 
 ## Events (backend → client)
 
@@ -56,61 +55,80 @@ each one with exactly one `result` event carrying the same `id`.
 | `discovered` | `bridges[]` of `{id, host}` (reply to `pair.discover`) |
 | `wallpaper` | `config`, `palette[]`, `appliedAt` (epoch seconds or null), `appliedCount` (int), `eligible` (int); also sent once right after `ready` |
 
-`wallpaper`: `palette` is ordered by importance (vivid colours first, the most
-representative one leading; near-white/grey filler only after them); lights
-take colours in turn. `appliedCount` is how many lights the apply at
-`appliedAt` sent colours to (0 before the first apply; a skipped apply leaves
-both unchanged). `eligible` is how many lights an apply would colour right now
-under the current `config` (0 while not connected); the event is re-sent when
-it changes. Clients should default both to 0 when absent (older backends).
+Wallpaper event fields:
 
-`conn.state` is one of `connecting`, `connected`, `unpaired`, `unauthorized`,
-`unreachable`, `cert_changed`, `pairing`. After `unpaired`, `unauthorized` and
-`cert_changed` the backend waits for a `pair.*` command; after `unreachable` it
-retries with backoff. A stored bridge with no pinned certificate is reported as
-`cert_changed` without contacting it (`pair.trust` records the pin).
+- `palette` is in order of importance. Vivid colours are first, and the most representative colour is the first of these. Near-white and grey filler colours are only after them.
+- The lights take the colours of `palette` in turn.
+- `appliedCount` is the number of lights that received colours at `appliedAt`.
+- `appliedCount` is 0 before the first apply.
+- If the backend skips an apply, `appliedAt` and `appliedCount` do not change.
+- `eligible` is the number of lights that an apply colours now, with the current `config`.
+- `eligible` is 0 when the backend is not connected.
+- The backend sends the event again when `eligible` changes.
+- The client must set `appliedCount` and `eligible` to 0 when they are absent (older backends).
 
-If the event stream drops (or stays quiet past its 150 s read timeout) while the
-bridge still answers REST requests, the backend resyncs and reopens the stream
-over the same connection: `conn` stays `connected`. Only when the bridge itself
-stops answering does `conn` change. Repeated stream failures back off (1 s
-doubling to 30 s) until a stream has stayed up for a minute or delivered events.
-A command that arrives while a connection is being (re)established waits up to
-5 s for it instead of failing at once.
+`conn.state` is one of `connecting`, `connected`, `unpaired`, `unauthorized`, `unreachable`, `cert_changed`, `pairing`.
+
+- After `unpaired`, `unauthorized` and `cert_changed`, the backend waits for a `pair.*` command.
+- After `unreachable`, the backend tries again with backoff.
+- If a stored bridge has no pinned certificate, the backend reports `cert_changed`. It does not contact the bridge. `pair.trust` records the pin.
+
+The event stream can drop. It can also stay quiet for more than its 150 s read timeout. If the bridge still answers REST requests in these cases, the backend does these steps:
+
+1. It resyncs.
+2. It opens the stream again over the same connection.
+
+`conn` stays `connected`. `conn` changes only when the bridge does not answer.
+
+Repeated stream failures cause a backoff. The backoff starts at 1 s and doubles to a maximum of 30 s. The backoff ends when a stream has stayed up for a minute or has delivered events.
+
+A command can arrive while the backend makes a connection (or makes it again). The command waits up to 5 s for the connection. It does not fail at once.
 
 ### Result codes
 
-`ok` is true for success, **including partial success**: when the bridge applied
-a command but warned about it (for example a bulb that is switched off at the
-wall), `ok` stays true and `warnings` carries the text. Failures set `ok` false
-with one of: `unpaired`, `unauthorized`, `unreachable`, `cert_changed`,
-`bridge_error` (the bridge refused; `message` is its text), `rate_limited`,
-`timeout`, `invalid` (bad command), `internal`. A `unauthorized` or
-`cert_changed` failure also makes the backend resync and update `conn`.
+`ok` is true for success, **including partial success**. In partial success, the bridge applies a command but gives a warning. An example is a bulb that is off at the wall. Then `ok` stays true and `warnings` has the text.
 
-A failed command affects only itself: other queued commands still run.
-Commands without an integer `id` still run but get no `result`; a line that is
-not a JSON object is ignored (and logged without its content). An unexpected
-error while handling a command answers it with `internal` and the backend keeps
-running. `wallpaper.config` and `pair.cancel`/`pair.forget` answer immediately
-(`wallpaper.config` answers `internal` and keeps the previous settings when
-`settings.json` cannot be written); every other command, `refresh` included, is
-queued and answered when it has run. A pairing that fails for any reason ends
-with a `pair` event of state `failed` and a `message`.
+When a command fails, `ok` is false and `code` is one of these values:
 
-Validation (`ops.py`): every id that reaches a URL must be a UUID; names are
-1-32 characters; `pct` is clamped to 1-100; `mirek` is clamped to the light's
-range; enum fields (`mode`, `preset`, `rtype`, `kind`) are allow-listed.
-`effect` and `timed.effect` must be lowercase letters and underscores, at most
-40 characters (`candle`, `no_effect`, `sunrise`). `effect`, `timed` and
-`identify` apply to `kind: light` only. If both `hex`
-and `mirek` are given, `hex` wins. `enable` accepts `rtype` of `motion`,
-`camera_motion`, `light_level`, `temperature` or `contact`. `pair.start`
-with a bad `host` and any unknown `pair.*` name answer `invalid`.
+- `unpaired`
+- `unauthorized`
+- `unreachable`
+- `cert_changed`
+- `bridge_error` (the bridge refused; `message` is its text)
+- `rate_limited`
+- `timeout`
+- `invalid` (bad command)
+- `internal`
+
+A failure with `unauthorized` or `cert_changed` also causes the backend to resync and to update `conn`.
+
+A failed command affects only itself. The other queued commands still run.
+
+- A command without an integer `id` still runs. It gets no `result`.
+- The backend ignores a line that is not a JSON object. It writes a log entry without the content of the line.
+- If an unexpected error occurs while the backend handles a command, the backend answers with `internal`. The backend continues to run.
+- `wallpaper.config`, `pair.cancel` and `pair.forget` answer at once.
+- If `settings.json` cannot be written, `wallpaper.config` answers `internal` and keeps the previous settings.
+- The backend queues every other command, `refresh` included. It answers when the command has run.
+- If a pairing fails for any reason, the backend sends a `pair` event with state `failed` and a `message`.
+
+Validation (`ops.py`):
+
+- Each id that goes into a URL must be a UUID.
+- A name must have 1-32 characters.
+- The backend clamps `pct` to 1-100.
+- The backend clamps `mirek` to the range of the light.
+- The backend uses an allow-list for the enum fields (`mode`, `preset`, `rtype`, `kind`).
+- `effect` and `timed.effect` must have only lowercase letters and underscores. They must have at most 40 characters (`candle`, `no_effect`, `sunrise`).
+- `effect`, `timed` and `identify` apply to `kind: light` only.
+- If a command has both `hex` and `mirek`, `hex` wins.
+- `enable` accepts an `rtype` of `motion`, `camera_motion`, `light_level`, `temperature` or `contact`.
+- `pair.start` with a bad `host` answers `invalid`.
+- Any unknown `pair.*` name answers `invalid`.
 
 ## Snapshot
 
-State is normalised and keyed by id so the UI can keep one delegate per object.
+The backend normalises the state and uses the id as the key. Thus, the panel can keep one delegate for each object.
 
 ```jsonc
 {
@@ -135,22 +153,22 @@ State is normalised and keyed by id so the UI can keep one delegate per object.
 }
 ```
 
-`state` events are coalesced and identical snapshots are never re-sent.
-`battery` is omitted when the device does not report it.
-`mirek` is null when a light is in colour mode. `device` is the id of the
-physical device that owns the light (a device can own several lights); renaming
-a light renames that device. `bridge.host` is filled in by the server from the
-stored credentials; the key and fingerprint are never included. Devices that
-own a light are not listed in `devices`.
+- The backend combines a burst of `state` events into one event. It never sends identical snapshots again.
+- The backend omits `battery` when the device does not report it.
+- `mirek` is null when a light is in colour mode.
+- `device` is the id of the physical device that owns the light. A device can own more than one light. When you rename a light, the backend renames that device.
+- The server sets `bridge.host` from the stored credentials. The snapshot never includes the key or the fingerprint.
+- `devices` does not list the devices that own a light.
 
 ## Connection security
 
-Bridges present a certificate signed by a private root. The first time a host is
-paired or imported, the backend records the SHA-256 fingerprint of the
-certificate it presents (trust on first use) and pins it: every later
-connection, including the event stream, must present the same certificate.
-A different certificate yields `conn: cert_changed` and no traffic until the
-user confirms with `pair.trust`.
+A bridge shows a certificate that a private root signs. The backend uses trust on first use:
+
+1. The first time a host is paired or imported, the backend records the SHA-256 fingerprint of the certificate.
+2. The backend pins this fingerprint.
+3. Each later connection must show the same certificate. This includes the event stream.
+
+If the certificate is different, the backend sets `conn: cert_changed` and sends no traffic. The user must confirm with `pair.trust`.
 
 ## Files
 
@@ -159,4 +177,3 @@ user confirms with `pair.trust`.
 | `$XDG_CONFIG_HOME/omarchy/hue-lights/bridge.json` (0600) | host, bridge id, application key, pinned fingerprint |
 | `$XDG_CONFIG_HOME/omarchy/hue-lights/settings.json` (0600) | wallpaper sync settings |
 | `$XDG_STATE_HOME/omarchy/hue-lights/hue.log`, `.1`, `.2` (all 0600, also after rotation) | diagnostics; never payloads or keys |
-

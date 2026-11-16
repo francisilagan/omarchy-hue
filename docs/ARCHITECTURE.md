@@ -1,6 +1,6 @@
 # Architecture
 
-Two halves joined by a documented protocol ([`PROTOCOL.md`](PROTOCOL.md)):
+The system has two halves. A documented protocol ([`PROTOCOL.md`](PROTOCOL.md)) joins them.
 
 ```
  QML (Quickshell)                         Python backend (stdlib only)
@@ -17,75 +17,91 @@ Two halves joined by a documented protocol ([`PROTOCOL.md`](PROTOCOL.md)):
 
 ## Rules
 
-* **The backend owns the bridge.** One process, one connection, one rate limiter,
-  one serialized command worker. The UI never makes a network call.
+* **The backend owns the bridge.** The backend is one process.
+  It has one connection, one rate limiter and one serialized command worker.
+  The UI never makes a network call.
 * **The UI never edits bridge state.** `HueService` holds the last snapshot.
-  A user change is a *pending* entry shown over the snapshot until the command
-  finishes and the bridge echoes it (`Model.js`: `remember`, `settle`, `expire`).
+  A user change is a *pending* entry.
+  The UI shows the pending entry over the snapshot until the command finishes and the bridge echoes it
+  (`Model.js`: `remember`, `settle`, `expire`).
   A failed command drops only its own entries.
-* **The event stream keeps the snapshot current.** Opening the panel sends
-  nothing; `r`, a middle click on the bar button and the recovery card's Retry
-  send `refresh`, an in-place resync that keeps the connection and stream (with
-  no connection it reconnects at once). A dropped or idle stream reconnects
-  silently.
-  A new or forgotten bridge clears the snapshot at once, so no room from the
-  old bridge is shown while the new one loads.
-* **One service, many bars.** `HueService` is a QML singleton, so every
-  monitor's bar shares one backend.
-* **Pure logic is testable.** `Model.js` and `colour.py`/`ops.py`/`state.py`
-  have no I/O; `bridge.py` and `server.py` take injected fakes. `Model.js`
-  functions that return words take a translator (`tr`) instead of holding English.
+* **The event stream keeps the snapshot current.** When the panel opens, it sends nothing.
+  These actions send `refresh`: `r`, a middle click on the bar button and the Retry button on the recovery card.
+  `refresh` is an in-place resync. It keeps the connection and the stream.
+  If no connection exists, `refresh` reconnects at once.
+  A dropped or idle stream reconnects silently.
+  A new or forgotten bridge clears the snapshot at once.
+  Thus the panel does not show a room from the old bridge while the new bridge loads.
+* **One service, many bars.** `HueService` is a QML singleton.
+  Every monitor bar shares one backend.
+* **Pure logic is testable.** `Model.js`, `colour.py`, `ops.py` and `state.py` have no I/O.
+  `bridge.py` and `server.py` take injected fakes.
+  `Model.js` functions that return words take a translator (`tr`).
+  They do not hold English text.
 * **Every word on screen comes from `qml/i18n/`.** See *Translations* below.
-* **Security.** The bridge's private-CA certificate is pinned by SHA-256
-  fingerprint (trust on first use), and a missing pin is treated as a changed
-  certificate: only link-button pairing, the openhue import and `pair.trust`
-  may contact an unpinned bridge. The key file is mode 0600; every id that
-  reaches a URL is validated as a UUID; names and enums are allow-listed.
+* **Security.** The backend pins the private-CA certificate of the bridge by SHA-256 fingerprint (trust on first use).
+  A missing pin counts as a changed certificate.
+  Only link-button pairing, the openhue import and `pair.trust` can contact an unpinned bridge.
+  The key file is mode 0600.
+  The backend validates every id that reaches a URL as a UUID.
+  The backend allow-lists names and enums.
 
 ## Where wallpaper sync fits
 
-It is a backend module, `backend/hue_backend/wallpaper.py`, run by the same
-server: it watches Omarchy's current-background symlink, extracts a palette
-(ImageMagick, ffmpeg for video), and submits ordinary `set` commands through
-the shared worker, so it shares the connection and rate limits and cannot fight
-the UI. Settings are `wallpaper.config` / `wallpaper.sync` commands plus a
-`wallpaper` event; the QML side is only `WallpaperCard.qml`. Its settings live in
-`settings.json` (migrated once from `~/.config/omarchy/hue-wallpaper.json`).
+Wallpaper sync is a backend module: `backend/hue_backend/wallpaper.py`.
+The same server runs it. The module does these steps:
+
+* It watches the current-background symlink of Omarchy.
+* It extracts a palette (ImageMagick, ffmpeg for video).
+* It submits ordinary `set` commands through the shared worker.
+
+Thus wallpaper sync shares the connection and the rate limits. It cannot conflict with the UI.
+The settings are the `wallpaper.config` and `wallpaper.sync` commands and a `wallpaper` event.
+The QML side is only `WallpaperCard.qml`.
+The settings are in `settings.json`.
+The backend migrates them once from `~/.config/omarchy/hue-wallpaper.json`.
 
 ## Translations
 
-The host's mechanism (`$OMARCHY_PATH/default/agents/skills/omarchy/plugins.md`,
-"Translations"): flat catalogs `qml/i18n/<code>.json`, read through
-`Commons.Translations`, following Setup > Language live. A missing string falls
-back to the base language, then `en.json`, then the key.
+The host defines the mechanism (`$OMARCHY_PATH/default/agents/skills/omarchy/plugins.md`, "Translations").
+The mechanism uses flat catalogs: `qml/i18n/<code>.json`.
+`Commons.Translations` reads the catalogs.
+The catalogs change at once when the user changes Setup > Language.
+If a string is missing, the system uses the base language.
+If the string is missing there, the system uses `en.json`, then the key.
 
-* `Strings.qml` is a singleton holding the one `Commons.Translations` reader, so
-  a repeated delegate does not open three catalog files each. Views call
-  `Hue.Strings.t(key, args…)`, `tn(key, count, args…)` (plural; `%1` is the
-  count, written with the language's digits) and `label(prefix, value, fallback)`
-  for bridge enums such as effects (`effect.candle`), falling back to the
-  prettified id.
-* Holes are filled in one pass by `Model.fill`, so a `%2` inside a bridge name
-  or error is left alone. Sentences are whole entries; fragments are never
-  glued together.
-* `Model.js` (`connectionMessage`, `errorMessage`, `pairFailure`,
-  `discoveryFailure`, `ago`, `wallpaperStatus`, `wallpaperHint`) takes `tr`: `Hue.Strings` in QML, a translator built from
-  `en.json` in the Node tests. Calls stay inside bindings, and the panel's
-  notice keeps the result event, not its text, so a language switch rewords
-  everything without a restart.
-* Not translated: brand names ("Hue"), glyphs, and text the backend sends
-  (device reading labels and values, control labels, `result.message`, bridge
-  warnings), which arrive as English. Failure codes are worded from the
-  catalog; for pairing and discovery failures `Model.js` also recognises the
-  backend's usual messages (no answer, not a bridge, link button not pressed),
-  and only an unrecognised one is shown as sent.
-* `tests/model.test.js` checks every key the code uses is in `en.json` (and the
-  reverse), plural shapes and `%N` numbering. `tests/qml_smoke.py` writes a
-  pseudo-locale (`qps`, accented, bracketed, a third longer) into its temp copy
-  only, switches to it mid-run and fails if any catalog string is still English.
+* `Strings.qml` is a singleton. It holds the one `Commons.Translations` reader.
+  Thus a repeated delegate does not open three catalog files each.
+  Views call `Hue.Strings.t(key, args…)`.
+  For plurals, views call `tn(key, count, args…)`: `%1` is the count, written with the digits of the language.
+  For bridge enums, such as effects (`effect.candle`), views call `label(prefix, value, fallback)`.
+  If no catalog entry exists, `label` uses the prettified id.
+* `Model.fill` fills all placeholders in one pass.
+  Thus a `%2` inside a bridge name or error stays unchanged.
+  Sentences are whole entries. The code never joins fragments.
+* These `Model.js` functions take `tr`: `connectionMessage`, `errorMessage`, `pairFailure`,
+  `discoveryFailure`, `ago`, `wallpaperStatus`, `wallpaperHint`.
+  In QML, `tr` is `Hue.Strings`. In the Node tests, `tr` is a translator built from `en.json`.
+  Calls stay inside bindings.
+  The notice of the panel keeps the result event, not its text.
+  Thus a language switch rewords everything without a restart.
+* These items are not translated: brand names ("Hue"), glyphs, and text that the backend sends
+  (device reading labels and values, control labels, `result.message`, bridge warnings).
+  This text arrives in English.
+  The catalog supplies the words for failure codes.
+  For pairing and discovery failures, `Model.js` also recognises the usual messages of the backend
+  (no answer, not a bridge, link button not pressed).
+  The panel shows an unrecognised message as sent.
+* `tests/model.test.js` checks that every key the code uses is in `en.json`, and the reverse.
+  It also checks plural shapes and `%N` numbering.
+  `tests/qml_smoke.py` writes a pseudo-locale (`qps`) into its temporary copy only.
+  The pseudo-locale has accented text in brackets, one third longer than the original.
+  The test switches to the pseudo-locale during the run.
+  The test fails if any catalog string is still English.
 
 ## Layout
 
+<!-- STE-REVIEW: the code block below lists `tools/` two times. The block is kept exactly as it was. -->
 ```
 manifest.json       entry point: qml/Panel.qml
 backend/            python package (`python3 backend serve`)
@@ -108,25 +124,30 @@ tests/qml/          the offscreen harness's shell (qml_smoke.py)
 tools/              capture_fixture.py
 ```
 
-Run tests: `python3 -m unittest discover -s tests`, `node --test tests/model.test.js`, `python3 tests/qml_smoke.py` (offscreen render of every view, English then the pseudo-locale; `HUE_QML_REAL=1` uses your own bridge, `HUE_QML_SHOTS=DIR` keeps the PNGs).
+Run the tests with these commands:
+
+* `python3 -m unittest discover -s tests`
+* `node --test tests/model.test.js`
+* `python3 tests/qml_smoke.py`: an offscreen render of every view, in English and then in the pseudo-locale.
+
+Set `HUE_QML_REAL=1` to use your own bridge. Set `HUE_QML_SHOTS=DIR` to keep the PNGs.
 
 ## Not done yet
 
-* Translations beyond English: the mechanism and `en.json` are in place; no
-  other language ships yet.
-* Right-to-left mirroring (Arabic, Hebrew, Persian, Urdu): the panel is built on
-  `KeyboardPanel`, but rows that place things by explicit anchors have not been
-  checked mirrored.
-* Backend-sent display text (device readings, control labels, errors) is
-  English; translating it needs ids in the protocol, not labels.
+* Translations beyond English: the mechanism and `en.json` exist. No other language is available yet.
+* Right-to-left mirroring (Arabic, Hebrew, Persian, Urdu): the panel is built on `KeyboardPanel`.
+  Rows that place items with explicit anchors are not checked in a mirrored layout.
+* The backend sends display text (device readings, control labels, errors) in English.
+  To translate this text, the protocol needs ids, not labels.
 * Packaging.
 
-Decided: the row keyboard cursor is done (`Panel.qml`, `CursorRing.qml`, logic
-in `Model.js`). Settings stay in the panel and `settings.json`, not in the
-manifest: they are runtime state the backend owns, shared by every bar.
+Decided: the row keyboard cursor is done (`Panel.qml`, `CursorRing.qml`, logic in `Model.js`).
+Settings stay in the panel and `settings.json`. They do not go in the manifest.
+Settings are runtime state. The backend owns this state, and every bar shares it.
 
 ## Scripting
 
-`python3 backend status | toggle | room IDS… | scene ID` are one-shot commands
-for scripts (a custom bar module, a key binding, a cron job). Each opens its own
-short connection with the same credentials and pinning.
+These commands run once for scripts (a custom bar module, a key binding, a cron job):
+`python3 backend status | toggle | room IDS… | scene ID`.
+Each command opens its own short connection.
+The connection uses the same credentials and pinning.
