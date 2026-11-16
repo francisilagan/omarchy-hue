@@ -1,5 +1,14 @@
 # Contributing
 
+## Make a change
+
+The `main` branch is protected. You must not push to it directly.
+
+1. Create a branch from `main`.
+2. Make the change and run the tests.
+3. Open a pull request. The title must follow Conventional Commits.
+4. Wait for the CI checks to pass. Then squash and merge.
+
 ## Run the tests
 
 ```
